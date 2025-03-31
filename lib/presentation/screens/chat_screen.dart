@@ -27,7 +27,11 @@ class ChatScreen extends StatelessWidget {
                       return Column(
                         children: [
                           ListTile(title: Text("You: ${state.userMessage}")),
-                          SizedBox(height: 500,child: MarkdownViewer(markdownText: state.botResponse)),
+                          IntrinsicHeight(
+                            child: MarkdownViewer(
+                              markdownText: state.botResponse,
+                            ),
+                          ),
                         ],
                       );
                     }
