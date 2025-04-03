@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_neo/presentation/widgets/md_rendrer.dart';
+import 'package:project_neo/features/presentation/widgets/md_rendrer.dart';
 import '../blocs/chat/chat_bloc.dart';
 
 class ChatScreen extends StatelessWidget {

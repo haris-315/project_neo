@@ -24,7 +24,7 @@ class AuthButton extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
           decoration: BoxDecoration(
-            gradient: AppTheme.primaryGradient,
+            gradient: AppTheme.cosmicGradient,
             borderRadius: BorderRadius.circular(borderRadius),
             boxShadow: [
               BoxShadow(

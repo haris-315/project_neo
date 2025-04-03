@@ -1,5 +1,5 @@
 import 'package:project_neo/core/custom_exceptions/server_exception.dart';
-import 'package:project_neo/data/models/chat_session.dart';
+import 'package:project_neo/features/data/models/chat_session.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthDataSource {

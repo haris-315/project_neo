@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'package:project_neo/data/models/chat_session.dart';
-import 'package:project_neo/domain/usecases/auth/user_signup.dart';
+import 'package:project_neo/features/data/models/chat_session.dart';
+import 'package:project_neo/features/domain/usecases/auth/user_signup.dart';
 
 part 'auth_events.dart';
 part 'auth_states.dart';

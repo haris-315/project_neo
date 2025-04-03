@@ -3,8 +3,8 @@ import 'package:project_neo/core/custom_exceptions/server_exception.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:project_neo/core/errors/failure.dart';
-import 'package:project_neo/data/sources/remote/auth_data_source.dart';
-import 'package:project_neo/domain/repositories/auth_repo.dart';
+import 'package:project_neo/features/data/sources/remote/auth_data_source.dart';
+import 'package:project_neo/features/domain/repositories/auth_repo.dart';
 
 class AuthRepositoryImpl implements AuthRepo {
   final AuthDataSource authDataSource;
