@@ -11,7 +11,7 @@ class ChatLoading extends ChatState {}
 
 class ChatSuccess extends ChatState {
   final String userMessage;
-  final String botResponse;
+  final RoleBasedModel botResponse;
   ChatSuccess(this.userMessage, this.botResponse);
 }
 

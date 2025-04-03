@@ -34,10 +34,10 @@ class GeminiResponse extends Chat {
 
   static GeminiResponse fromRawJson(String str) =>
       GeminiResponse.fromJson(json.decode(str));
-      
-        @override
-        // TODO: implement content
-        String get content => responseText;
+  @HiveField(3)
+  @override
+  // TODO: implement content
+  String get content => responseText;
 }
 
 @HiveType(typeId: 3)
@@ -48,7 +48,7 @@ class UserChat extends Chat {
   final DateTime sendTime;
 
   UserChat({required this.message, required this.sendTime});
-  
+  @HiveField(2)
   @override
   // TODO: implement content
   String get content => message;

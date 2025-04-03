@@ -16,10 +16,7 @@ class RoleBasedModelAdapter extends TypeAdapter<RoleBasedModel> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return RoleBasedModel(
-      role: fields[0] as String,
-      content: fields[1] as Chat,
-    );
+    return RoleBasedModel(role: fields[0] as String, chat: fields[1] as Chat);
   }
 
   @override
@@ -29,7 +26,7 @@ class RoleBasedModelAdapter extends TypeAdapter<RoleBasedModel> {
       ..writeByte(0)
       ..write(obj.role)
       ..writeByte(1)
-      ..write(obj.content);
+      ..write(obj.chat);
   }
 
   @override

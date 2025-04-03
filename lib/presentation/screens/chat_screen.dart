@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_neo/presentation/widgets/md_rendrer.dart';
-import '../blocs/chat_bloc.dart';
+import '../blocs/chat/chat_bloc.dart';
 
 class ChatScreen extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
@@ -13,7 +13,7 @@ class ChatScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => ChatBloc(),
       child: Scaffold(
-        appBar: AppBar(title: const Text("Chatbot")),
+        appBar: AppBar(title: const Text("Neo")),
         body: Builder(
           builder: (context) {
             return Column(
@@ -24,20 +24,24 @@ class ChatScreen extends StatelessWidget {
                       return const Center(child: CircularProgressIndicator());
                     }
                     if (state is ChatSuccess) {
-                      return Column(
-                        children: [
-                          ListTile(title: Text("You: ${state.userMessage}")),
-                          IntrinsicHeight(
-                            child: MarkdownViewer(
-                              markdownText: state.botResponse,
+                      return SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ListTile(title: Text("You: ${state.userMessage}")),
+                            Text("Neo: "),
+                            IntrinsicHeight(
+                              child: MarkdownViewer(
+                                markdownText: state.botResponse.chat.content,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       );
                     }
                     return const Center(child: Text("Start a conversation!"));
                   },
                 ),
+                Spacer(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(

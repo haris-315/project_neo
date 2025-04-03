@@ -10,17 +10,15 @@ class MarkdownViewer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: IntrinsicHeight(
-        child: MarkdownBody(
-          data: markdownText,
-          selectable: true, 
-          styleSheet: MarkdownStyleSheet(
-            codeblockDecoration: BoxDecoration(
-              color: Colors.black87,
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            code: const TextStyle(color: Colors.orangeAccent),
+      child: MarkdownBody(
+        data: markdownText,
+        selectable: true, 
+        styleSheet: MarkdownStyleSheet(
+          codeblockDecoration: BoxDecoration(
+            color: Colors.black87,
+            borderRadius: BorderRadius.circular(8.0),
           ),
+          code: const TextStyle(color: Colors.orangeAccent),
         ),
       ),
     );

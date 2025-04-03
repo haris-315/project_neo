@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../data/sources/remote/gemini_service.dart';
+import 'package:project_neo/data/models/role_based_model.dart';
+import '../../../data/sources/remote/gemini_service.dart';
 
 part 'chat_events.dart';
 part 'chat_states.dart';

@@ -7,12 +7,12 @@ class RoleBasedModel {
   @HiveField(0)
   final String role;
   @HiveField(1)
-  final Chat content;
+  final Chat chat;
 
-  RoleBasedModel({required this.role, required this.content});
+  RoleBasedModel({required this.role, required this.chat});
 
   Map<String, String> toMap() => <String, String>{
     "Role": role,
-    "Text": content.content,
+    "Text": chat.content,
   };
 }
