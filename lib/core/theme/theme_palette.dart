@@ -205,7 +205,10 @@ class AppTheme {
       child: TextFormField(
         controller: controller,
         validator: (value) {
-          return validate!(value!);
+          if (validate == null) {
+            return null;
+          }
+          return validate(value ?? "");
         },
         obscureText: obscureText,
         style: bodyText,

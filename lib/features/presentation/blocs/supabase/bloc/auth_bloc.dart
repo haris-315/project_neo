@@ -19,13 +19,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     : _userSignUp = userSignUp,
       _userSignIn = userSignIn,
       super(AuthInitial()) {
-
     on<SignUp>(onSignUp);
 
     on<SignIn>(onSignIn);
   }
 
-  FutureOr<void> onSignUp(SignUp event,Emitter<AuthState> emit) async {
+  FutureOr<void> onSignUp(SignUp event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     final response = await _userSignUp(
       SignUpParams(
@@ -34,25 +33,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         password: event.password,
       ),
     );
-  
+
     return response.fold(
-      (fail) => AuthError(message: fail.message),
-      (success) => AuthSuccess(user: success),
+      (fail) => emit(AuthError(message: fail.message)),
+      (success) => emit(AuthSuccess(user: success)),
     );
   }
 
-  FutureOr<void> onSignIn(SignIn event,Emitter<AuthState> emit) async {
+  FutureOr<void> onSignIn(SignIn event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     final response = await _userSignIn(
-      SignInParams(
-        email: event.email,
-        password: event.password,
-      ),
+      SignInParams(email: event.email, password: event.password),
     );
-  
+
     return response.fold(
-      (fail) => AuthError(message: fail.message),
-      (success) => AuthSuccess(user: success),
+      (fail) => emit(AuthError(message: fail.message)),
+      (success) => emit(AuthSuccess(user: success)),
     );
   }
 }

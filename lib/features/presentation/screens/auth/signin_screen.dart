@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_neo/core/shared/widgets/loading_indicator.dart';
 import 'package:project_neo/core/theme/theme_palette.dart';
 import 'package:project_neo/core/utils/display_snackbar.dart';
+import 'package:project_neo/core/utils/email_validate.dart';
 import 'package:project_neo/features/presentation/blocs/supabase/bloc/auth_bloc.dart';
-import 'package:project_neo/features/presentation/widgets/auth/navigation_text.dart' show NavigationText;
+import 'package:project_neo/features/presentation/widgets/auth/navigation_text.dart'
+    show NavigationText;
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -69,6 +71,12 @@ class _SignInScreenState extends State<SignInScreen> {
 
                     hintText: "Email",
                     icon: Icons.email,
+                    validate: (value) {
+                      if (isValidEmail(value)) {
+                        return null;
+                      }
+                      return "Please enter a valid email.";
+                    },
                   ),
                   const SizedBox(height: 15),
                   AppTheme.customInputField(
@@ -82,11 +90,18 @@ class _SignInScreenState extends State<SignInScreen> {
                         passVisible = !passVisible;
                       });
                     },
+                    validate: (value) {
+                      if (value.isNotEmpty || value.length > 8) {
+                        return null;
+                      } else {
+                        return "Enter a correct password.";
+                      }
+                    },
                   ),
                   const SizedBox(height: 30),
                   Center(
                     child: AppTheme.customAnimatedButton(
-                      text: "Sign Up",
+                      text: "Sign In",
                       onPressed: () {
                         if (signInFormKey.currentState!.validate()) {
                           context.read<AuthBloc>().add(
@@ -99,12 +114,12 @@ class _SignInScreenState extends State<SignInScreen> {
                       },
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   NavigationText(
                     t1: "Don't have an account? ",
                     t2: "Sign In",
                     onTap: () {
-                      Navigator.pushNamed(context, "/signup");
+                      Navigator.pop(context);
                     },
                   ),
                 ],

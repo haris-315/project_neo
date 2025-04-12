@@ -3,7 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_neo/core/shared/widgets/loading_indicator.dart';
 import 'package:project_neo/core/theme/theme_palette.dart';
 import 'package:project_neo/core/utils/display_snackbar.dart';
+import 'package:project_neo/core/utils/email_validate.dart';
+import 'package:project_neo/core/utils/pass_validate.dart';
+import 'package:project_neo/core/utils/slide_push.dart';
 import 'package:project_neo/features/presentation/blocs/supabase/bloc/auth_bloc.dart';
+import 'package:project_neo/features/presentation/screens/auth/signin_screen.dart';
 import 'package:project_neo/features/presentation/widgets/auth/navigation_text.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -78,6 +82,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                     hintText: "Email",
                     icon: Icons.email,
+                    validate: (value) {
+                      if (isValidEmail(value)) {
+                        return null;
+                      }
+                      return "Please enter a valid email.";
+                    },
                   ),
                   const SizedBox(height: 15),
                   AppTheme.customInputField(
@@ -90,6 +100,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       setState(() {
                         passVisible = !passVisible;
                       });
+                    },
+                    validate: (value) {
+                      if (isStrongPassword(value)) {
+                        return null;
+                      } else {
+                        return "Please choose a strong password.";
+                      }
                     },
                   ),
                   const SizedBox(height: 30),
@@ -109,12 +126,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       },
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   NavigationText(
                     t1: "Already have an account! ",
                     t2: "Sign In",
                     onTap: () {
-                      Navigator.pushNamed(context, "/signin");
+                      Navigator.push(
+                        context,
+                        SlidePageRoute(page: SignInScreen()),
+                      );
                     },
                   ),
                 ],
