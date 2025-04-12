@@ -1,11 +1,15 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_neo/features/data/models/chat_models.dart';
 import 'package:project_neo/features/data/models/role_based_model.dart';
 
 class GeminiService {
-  static final String apiKey = dotenv.env["GEMINI_API_KEY"]!;
+  static final String apiKey =
+      kDebugMode
+          ? dotenv.env["GEMINI_API_KEY"]!
+          : String.fromEnvironment("GEMINI_API_KEY");
   static final List<String> geminiModels = [
     "gemini-2.0-flash-lite",
     "gemini-2.0-flash",
@@ -47,6 +51,9 @@ class GeminiService {
         );
       }
     }
-    return RoleBasedModel(role: "Neo", chat: GeminiResponse.fromRawJson(response.body),);
+    return RoleBasedModel(
+      role: "Neo",
+      chat: GeminiResponse.fromRawJson(response.body),
+    );
   }
 }
