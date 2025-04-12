@@ -14,3 +14,10 @@ final class SignUp extends AuthEvent {
 
   const SignUp({required this.name, required this.email, required this.password});
 }
+
+final class SignIn extends AuthEvent {
+  final String email;
+  final String password;
+
+  const SignIn({required this.email, required this.password});
+}

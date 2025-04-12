@@ -1,10 +1,11 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:project_neo/core/custom_exceptions/server_exception.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:project_neo/core/errors/failure.dart';
 import 'package:project_neo/features/data/sources/remote/auth_data_source.dart';
+import 'package:project_neo/features/domain/entities/user.dart';
 import 'package:project_neo/features/domain/repositories/auth_repo.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 class AuthRepositoryImpl implements AuthRepo {
   final AuthDataSource authDataSource;
@@ -12,22 +13,35 @@ class AuthRepositoryImpl implements AuthRepo {
   AuthRepositoryImpl(this.authDataSource);
 
   @override
-  User? getCurrentUser() {
-    return null;
-  }
-
-  @override
   Future<void> signOut() async {}
 
   @override
-  Future<Either<Failure, String>> signUp(
-    {required String name,
+  Future<Either<Failure, User>> signUp({
+    required String name,
     required String email,
-    required String password,}
-  ) async {
+    required String password,
+  }) async {
+    return await _getUser(
+      () async => await authDataSource.signUp(email, password, name),
+    );
+  }
+
+  @override
+  Future<Either<Failure, User>> signIn({
+    required String email,
+    required String password,
+  }) async {
+    return await _getUser(
+      () async => await authDataSource.signIn(email, password),
+    );
+  }
+
+  Future<Either<Failure, User>> _getUser(Future<User> Function() fn) async {
     try {
-      final userId = await authDataSource.signUp(email, password, name);
-      return right(userId);
+      final user = await fn();
+      return right(user);
+    } on supabase.AuthException catch (e) {
+      return left(Failure(message: e.toString()));
     } on ServerException catch (e) {
       return left(Failure(message: e.exception));
     }

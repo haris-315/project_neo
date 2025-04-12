@@ -4,24 +4,22 @@ import 'package:project_neo/core/shared/widgets/loading_indicator.dart';
 import 'package:project_neo/core/theme/theme_palette.dart';
 import 'package:project_neo/core/utils/display_snackbar.dart';
 import 'package:project_neo/features/presentation/blocs/supabase/bloc/auth_bloc.dart';
-import 'package:project_neo/features/presentation/widgets/auth/navigation_text.dart';
+import 'package:project_neo/features/presentation/widgets/auth/navigation_text.dart' show NavigationText;
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
-  final TextEditingController nameController = TextEditingController();
+class _SignInScreenState extends State<SignInScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool passVisible = false;
-  final GlobalKey<FormState> signUpFormKey = GlobalKey();
+  final GlobalKey<FormState> signInFormKey = GlobalKey();
   @override
   void dispose() {
-    nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -32,7 +30,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Sign Up",
+          "Sign In",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
         ),
         centerTitle: true,
@@ -50,14 +48,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
               return LoadingIndicator();
             }
             return Form(
-              key: signUpFormKey,
+              key: signInFormKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Center(
                     child: const Text(
-                      "Create Account",
+                      "Welcome Back!",
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -66,13 +64,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  AppTheme.customInputField(
-                    controller: nameController,
-
-                    hintText: "Name",
-                    icon: Icons.person,
-                  ),
-                  const SizedBox(height: 15),
                   AppTheme.customInputField(
                     controller: emailController,
 
@@ -97,10 +88,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: AppTheme.customAnimatedButton(
                       text: "Sign Up",
                       onPressed: () {
-                        if (signUpFormKey.currentState!.validate()) {
+                        if (signInFormKey.currentState!.validate()) {
                           context.read<AuthBloc>().add(
-                            SignUp(
-                              name: nameController.text.trim(),
+                            SignIn(
                               email: emailController.text.trim(),
                               password: passwordController.text.trim(),
                             ),
@@ -111,10 +101,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   SizedBox(height: 10),
                   NavigationText(
-                    t1: "Already have an account! ",
+                    t1: "Don't have an account? ",
                     t2: "Sign In",
                     onTap: () {
-                      Navigator.pushNamed(context, "/signin");
+                      Navigator.pushNamed(context, "/signup");
                     },
                   ),
                 ],

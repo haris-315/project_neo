@@ -4,29 +4,23 @@ import 'package:project_neo/core/usecase/usecase_interface.dart';
 import 'package:project_neo/features/domain/entities/user.dart';
 import 'package:project_neo/features/domain/repositories/auth_repo.dart';
 
-class UserSignUp implements UsecaseInterface<User, SignUpParams> {
+class UserSignIn implements UsecaseInterface<User, SignInParams> {
   final AuthRepo authRepo;
 
-  UserSignUp({required this.authRepo});
+  UserSignIn({required this.authRepo});
   @override
-  Future<Either<Failure, User>> call(params) async {
-    final respose = await authRepo.signUp(
-      name: params.name,
+  Future<Either<Failure, User>> call(SignInParams params) async {
+    final response = await authRepo.signIn(
       email: params.email,
       password: params.password,
     );
-    return respose;
+    return response;
   }
 }
- 
-final class SignUpParams {
-  final String name;
+
+class SignInParams {
   final String email;
   final String password;
 
-  SignUpParams({
-    required this.name,
-    required this.email,
-    required this.password,
-  });
+  SignInParams({required this.email, required this.password});
 }

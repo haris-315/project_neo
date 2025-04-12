@@ -6,6 +6,7 @@ import 'package:project_neo/features/data/models/role_based_model.dart';
 import 'package:project_neo/features/data/repositories/auth_repo_impl.dart';
 import 'package:project_neo/features/data/sources/remote/auth_data_source.dart';
 import 'package:project_neo/features/domain/repositories/auth_repo.dart';
+import 'package:project_neo/features/domain/usecases/auth/user_signin.dart';
 import 'package:project_neo/features/domain/usecases/auth/user_signup.dart';
 import 'package:project_neo/features/presentation/blocs/supabase/bloc/auth_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -35,8 +36,9 @@ void _initAuth() {
   serviceLocator.registerFactory<AuthRepo>(
     () => AuthRepositoryImpl(serviceLocator()),
   );
-  serviceLocator.registerFactory(() => UserSignUp(repo: serviceLocator()));
+  serviceLocator.registerFactory(() => UserSignUp(authRepo: serviceLocator()));
+  serviceLocator.registerFactory(() => UserSignIn(authRepo: serviceLocator()));
   serviceLocator.registerLazySingleton(
-    () => AuthBloc(userSignUp: serviceLocator()),
+    () => AuthBloc(userSignUp: serviceLocator(), userSignIn: serviceLocator()),
   );
 }

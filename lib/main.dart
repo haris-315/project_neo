@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:project_neo/core/theme/theme_palette.dart';
 import 'package:project_neo/features/presentation/blocs/supabase/bloc/auth_bloc.dart';
+import 'package:project_neo/features/presentation/screens/auth/signin_screen.dart';
 import 'package:project_neo/features/presentation/screens/auth/signup_screen.dart';
 import 'package:project_neo/features/presentation/screens/chat_screen.dart';
 import 'package:project_neo/init_dpndncs.dart';
@@ -12,12 +13,7 @@ Future<void> main() async {
   await initDependencies();
   runApp(
     MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create:
-              (_) => serviceLocator<AuthBloc>()
-        ),
-      ],
+      providers: [BlocProvider(create: (_) => serviceLocator<AuthBloc>())],
       child: const MyApp(),
     ),
   );
@@ -32,11 +28,11 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
       title: dotenv.env['SUPABASE_URL'],
-      // home: ChatScreen(),
-      initialRoute: "signup",
+      initialRoute: "/signup",
       routes: {
-        'chat': (context) => ChatScreen(),
-        'signup': (context) => SignUpScreen(),
+        '/chat': (context) => ChatScreen(),
+        '/signup': (context) => SignUpScreen(),
+        '/signin': (context) => SignInScreen(),
       },
     );
   }

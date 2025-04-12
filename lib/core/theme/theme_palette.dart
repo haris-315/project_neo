@@ -189,6 +189,7 @@ class AppTheme {
     required IconData icon,
     bool obscureText = false,
     VoidCallback? toggleVisibility,
+    Function(String)? validate,
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -203,6 +204,9 @@ class AppTheme {
       ),
       child: TextFormField(
         controller: controller,
+        validator: (value) {
+          return validate!(value!);
+        },
         obscureText: obscureText,
         style: bodyText,
         decoration: InputDecoration(

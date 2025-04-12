@@ -19,7 +19,7 @@ final class AuthError extends AuthState {
 
 final class AuthSuccess extends AuthState {
   final List<ChatSession>? sessions;
-  final User? user;
-  final String? uid;
-  const AuthSuccess({this.sessions, this.user,this.uid, });
+  final User user;
+
+  const AuthSuccess({this.sessions, required this.user,});
 }
