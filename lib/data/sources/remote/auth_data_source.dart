@@ -1,13 +1,12 @@
 import 'package:project_neo/core/custom_exceptions/server_exception.dart';
-import 'package:project_neo/features/data/models/chat_session.dart';
-import 'package:project_neo/features/data/models/user_model.dart';
+import 'package:project_neo/data/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthDataSource {
   final SupabaseClient _client;
 
   AuthDataSource({required SupabaseClient client}) : _client = client;
-
+  Session? get currentSession => _client.auth.currentSession;
   Future<UserModel> signUp(String email, String password, String name) async {
     try {
       final response = await _client.auth.signUp(
@@ -43,7 +42,18 @@ class AuthDataSource {
     await _client.auth.signOut();
   }
 
-  Future<List<ChatSession>> getUserSessions(userId) {
-    throw UnimplementedError();
+  Future<UserModel?> getUserInfo() async {
+    try {
+      if (currentSession != null) {
+        final userInfo = await _client
+            .from("profiles")
+            .select()
+            .eq("id", currentSession!.user.id);
+        return UserModel.fromJson(userInfo.first);
+      }
+      return null;
+    } catch (e) {
+      throw ServerException(exception: e.toString());
+    }
   }
 }

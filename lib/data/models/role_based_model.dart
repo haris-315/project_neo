@@ -1,5 +1,5 @@
 import 'package:hive_flutter/adapters.dart';
-import 'package:project_neo/features/data/models/chat_models.dart';
+import 'package:project_neo/data/models/chat_models.dart';
 part 'role_based_model.g.dart';
 
 @HiveType(typeId: 1)

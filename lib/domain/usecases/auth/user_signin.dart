@@ -1,8 +1,8 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:project_neo/core/errors/failure.dart';
 import 'package:project_neo/core/usecase/usecase_interface.dart';
-import 'package:project_neo/features/domain/entities/user.dart';
-import 'package:project_neo/features/domain/repositories/auth_repo.dart';
+import 'package:project_neo/domain/entities/user.dart';
+import 'package:project_neo/domain/repositories/auth_repo.dart';
 
 class UserSignIn implements UsecaseInterface<User, SignInParams> {
   final AuthRepo authRepo;

@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:project_neo/features/data/models/chat_models.dart';
-import 'package:project_neo/features/data/models/role_based_model.dart';
+import 'package:project_neo/data/models/chat_models.dart';
+import 'package:project_neo/data/models/role_based_model.dart';
 
 class GeminiService {
   static final String apiKey =

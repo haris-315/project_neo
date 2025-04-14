@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:project_neo/core/theme/theme_palette.dart';
-import 'package:project_neo/features/presentation/blocs/supabase/bloc/auth_bloc.dart';
-import 'package:project_neo/features/presentation/screens/auth/signin_screen.dart';
-import 'package:project_neo/features/presentation/screens/auth/signup_screen.dart';
-import 'package:project_neo/features/presentation/screens/chat_screen.dart';
+import 'package:project_neo/presentation/blocs/supabase/bloc/auth_bloc.dart';
+import 'package:project_neo/presentation/screens/auth/signin_screen.dart';
+import 'package:project_neo/presentation/screens/auth/signup_screen.dart';
+import 'package:project_neo/presentation/screens/chat_screen.dart';
 import 'package:project_neo/init_dpndncs.dart';
 
 Future<void> main() async {

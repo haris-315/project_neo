@@ -1,5 +1,5 @@
 import 'package:hive_flutter/adapters.dart';
-import 'package:project_neo/features/data/models/role_based_model.dart';
+import 'package:project_neo/data/models/role_based_model.dart';
 part 'chat_session.g.dart';
 @HiveType(typeId: 0)
 class ChatSession {

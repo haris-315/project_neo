@@ -4,8 +4,8 @@ import 'package:project_neo/core/shared/widgets/loading_indicator.dart';
 import 'package:project_neo/core/theme/theme_palette.dart';
 import 'package:project_neo/core/utils/display_snackbar.dart';
 import 'package:project_neo/core/utils/email_validate.dart';
-import 'package:project_neo/features/presentation/blocs/supabase/bloc/auth_bloc.dart';
-import 'package:project_neo/features/presentation/widgets/auth/navigation_text.dart'
+import 'package:project_neo/presentation/blocs/supabase/bloc/auth_bloc.dart';
+import 'package:project_neo/presentation/widgets/auth/navigation_text.dart'
     show NavigationText;
 
 class SignInScreen extends StatefulWidget {
