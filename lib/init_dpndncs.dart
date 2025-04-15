@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:project_neo/data/models/chat_models.dart';
@@ -21,7 +22,9 @@ Future<void> initDependencies() async {
     url: dotenv.env['SUPABASE_URL']!,
     anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
-  print(supabase.client.accessToken);
+  if (kDebugMode) {
+    print(supabase.client.accessToken);
+  }
   Hive.registerAdapter(ChatSessionAdapter());
   Hive.registerAdapter(RoleBasedModelAdapter());
   Hive.registerAdapter(UserChatAdapter());
