@@ -1,5 +1,6 @@
 final class Failure {
   final String message;
-
-  Failure({required this.message});
+  final String? details;
+  final String? origin;
+  Failure({required this.message, this.details,this.origin});
 }

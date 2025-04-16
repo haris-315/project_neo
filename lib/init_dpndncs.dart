@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:project_neo/core/services/session_manager.dart';
 import 'package:project_neo/data/models/chat_models.dart';
 import 'package:project_neo/data/models/chat_session.dart';
 import 'package:project_neo/data/models/role_based_model.dart';
@@ -39,8 +40,12 @@ void _initAuth() {
     ..registerFactory<AuthRepo>(() => AuthRepositoryImpl(serviceLocator()))
     ..registerFactory(() => UserSignUp(authRepo: serviceLocator()))
     ..registerFactory(() => UserSignIn(authRepo: serviceLocator()))
+    ..registerLazySingleton(() => SessionManager())
     ..registerLazySingleton(
-      () =>
-          AuthBloc(userSignUp: serviceLocator(), userSignIn: serviceLocator()),
+      () => AuthBloc(
+        userSignUp: serviceLocator(),
+        userSignIn: serviceLocator(),
+        sessionManager: serviceLocator(),
+      ),
     );
 }
