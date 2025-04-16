@@ -32,7 +32,7 @@ class AuthDataSource {
       if (response.user == null) {
         throw ServerException(exception: "User Is Null");
       }
-      return UserModel.fromJson(response.user!.toJson());
+      return UserModel.fromJson(response.user!.toJson()["user_metadata"]);
     } catch (e) {
       throw ServerException(exception: e.toString());
     }

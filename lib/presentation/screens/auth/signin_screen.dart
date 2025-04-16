@@ -44,17 +44,30 @@ class _SignInScreenState extends State<SignInScreen> {
             if (state is AuthError) {
               showSnackBar(context, state.message);
             }
+            if (state is AuthSuccess) {
+              print(state.user!.name);
+              print(state.user!.email);
+            }
           },
           builder: (context, state) {
             if (state is AuthLoading) {
               return LoadingIndicator();
             }
+
             return Form(
               key: signInFormKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  if (state is AuthSuccess)
+                    Center(
+                      child: Text(
+                        state.user!.name,
+                        style: TextStyle(color: AppTheme.cosmicPurple),
+                      ),
+                    ),
+
                   Center(
                     child: const Text(
                       "Welcome Back!",

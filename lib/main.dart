@@ -7,6 +7,7 @@ import 'package:project_neo/presentation/screens/auth/signin_screen.dart';
 import 'package:project_neo/presentation/screens/auth/signup_screen.dart';
 import 'package:project_neo/presentation/screens/chat_screen.dart';
 import 'package:project_neo/init_dpndncs.dart';
+import 'package:project_neo/presentation/screens/splash/startup_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,11 +29,12 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
       title: dotenv.env['SUPABASE_URL'],
-      initialRoute: "/signup",
+      initialRoute: "/startup",
       routes: {
         '/chat': (context) => ChatScreen(),
         '/signup': (context) => SignUpScreen(),
         '/signin': (context) => SignInScreen(),
+        '/startup': (context) => StartupScreen(),
       },
     );
   }

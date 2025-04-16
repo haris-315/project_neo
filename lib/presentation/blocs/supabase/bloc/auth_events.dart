@@ -12,7 +12,11 @@ final class SignUp extends AuthEvent {
   final String email;
   final String password;
 
-  const SignUp({required this.name, required this.email, required this.password});
+  const SignUp({
+    required this.name,
+    required this.email,
+    required this.password,
+  });
 }
 
 final class SignIn extends AuthEvent {
@@ -21,3 +25,5 @@ final class SignIn extends AuthEvent {
 
   const SignIn({required this.email, required this.password});
 }
+
+final class CheckSignInSession extends AuthEvent {}

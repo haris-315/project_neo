@@ -55,24 +55,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final response = await _userSignIn(
       SignInParams(email: event.email, password: event.password),
     );
-    return response.fold(
-      (fail) => emit(AuthError(message: fail.message)),
-      (success) => () async {
-        final currentSession = sb.Supabase.instance.client.auth.currentSession;
-        
-          final smResponse = await _sessionManager.storeSession(
-          AppConstants.sessionKey,
-          SessionParser.sToString(currentSession!),
-        );
-        
+    return response.fold((fail) => emit(AuthError(message: fail.message)), (
+      success,
+    ) async {
+      final currentSession = sb.Supabase.instance.client.auth.currentSession;
 
-        emit(
-          AuthSuccess(
-            user: success,
-            handledException: smResponse,
-          ),
-        );
-      },
-    );
+      final smResponse = await _sessionManager.storeSession(
+        AppConstants.sessionKey,
+        SessionParser.sToString(currentSession!),
+      );
+
+      print(smResponse);
+      emit(AuthSuccess(user: success, handledException: smResponse));
+    });
   }
+
 }
