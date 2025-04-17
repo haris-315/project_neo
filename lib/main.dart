@@ -4,7 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:project_neo/core/theme/theme_palette.dart';
 import 'package:project_neo/presentation/blocs/chat/chat_bloc.dart';
 import 'package:project_neo/presentation/blocs/supabase/bloc/auth_bloc.dart';
-import 'package:project_neo/presentation/screens/chat_screen.dart';
+import 'package:project_neo/presentation/screens/chat/chat_screen.dart';
 import 'package:project_neo/init_dpndncs.dart';
 import 'package:project_neo/presentation/screens/splash/startup_screen.dart';
 

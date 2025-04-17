@@ -19,6 +19,6 @@ class ChatSession {
     createdAt: DateTime.now(),
     id: "",
     identifier: "",
-    conversation: [ChatEntity(prompt: "", content: "How Can Help You?")],
+    conversation: [],
   );
 }

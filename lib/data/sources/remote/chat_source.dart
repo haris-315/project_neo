@@ -33,6 +33,7 @@ class GeminiDataSource {
     print(session.contextMemory(user).expand((innerList) => innerList));
     String apiUrl =
         "https://generativelanguage.googleapis.com/v1/models/${geminiModels[currentModelIndex]}:generateContent?key=$apiKey";
+    print(prompt);
     try {
       final response = await http.post(
         Uri.parse(apiUrl),
@@ -41,6 +42,7 @@ class GeminiDataSource {
           "contents": [
             ...session.contextMemory(user).expand((innerList) => innerList),
             {
+              "role": "user",
               "parts": [
                 {"text": prompt},
               ],
@@ -48,7 +50,7 @@ class GeminiDataSource {
           ],
         }),
       );
-
+      print(response.body);
       if (response.statusCode == 429) {
         if (currentModelIndex < geminiModels.length - 1) {
           currentModelIndex++;
@@ -63,6 +65,7 @@ class GeminiDataSource {
       session.conversation.add(
         ChatModel.fromJson(jsonDecode(response.body), prompt),
       );
+      await client.from("sessions").upsert(session.toJson(), onConflict: "id");
       return session;
     } catch (e) {
       if (kDebugMode) {

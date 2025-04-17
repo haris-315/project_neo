@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_neo/core/services/get_user.dart';
 import 'package:project_neo/domain/entities/chat_session.dart';
+import 'package:project_neo/presentation/widgets/chat/prompt_input.dart';
 import 'package:project_neo/presentation/widgets/md_rendrer.dart';
-import '../blocs/chat/chat_bloc.dart';
+import '../../blocs/chat/chat_bloc.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -59,30 +59,7 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: const InputDecoration(
-                      hintText: "Type a message...",
-                    ),
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: () {
-                    context.read<ChatBloc>().add(
-                      SendMessage(prompt: _controller.text, session: session,user: getUser(context).name),
-                    );
-                    _controller.clear();
-                  },
-                ),
-              ],
-            ),
-          ),
+          PromptInput(controller: _controller, session: session),
         ],
       ),
     );

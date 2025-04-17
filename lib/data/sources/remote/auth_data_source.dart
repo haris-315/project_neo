@@ -54,30 +54,25 @@ class AuthDataSource {
       final response = await sessionManager.retrieveSession(
         AppConstants.sessionKey,
       );
-      response.fold(
-        (fail) {
-          return null;
-        },
-        (pass) async {
-          if (pass == null) {
-            return null;
-          } else {            try {
-              final res = await _client.auth.setSession(
-                SessionParser.sFromString(pass)!.refreshToken!,
-                
-              );
 
-              return res.session != null ? null : res.session!.user;
-            } catch (e) {
-              print(e);
-              return null;
-            }
-          }
-        },
+      if (response.isLeft()) return null;
+
+      final pass = response.getOrElse((_) => null);
+      if (pass == null) return null;
+
+      final session = SessionParser.sFromString(pass);
+      if (session?.refreshToken == null) return null;
+
+      final res = await _client.auth.setSession(session!.refreshToken!);
+      sessionManager.storeSession(
+        AppConstants.sessionKey,
+        SessionParser.sToString(res.session!),
       );
+      return res.user != null
+          ? UserModel.fromJson(res.user!.userMetadata!)
+          : null;
     } catch (e) {
       throw ServerException(exception: e.toString());
     }
-    return null;
   }
 }

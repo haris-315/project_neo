@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:project_neo/data/models/chat_model.dart';
 import 'package:project_neo/domain/entities/chat_session.dart';
 
@@ -21,16 +23,15 @@ class ChatSessionModel extends ChatSession {
               .toList(),
     );
   }
-  toJson() {
+  Map<String, dynamic> toJson() {
     return {
-      "id": id,
       "title": title,
-      "createdAt": createdAt,
-      "identifier": identifier,
-      "conversation":
-          conversation
-              .map((val) => {"prompt": val.prompt, "content": val.content})
-              .toList(),
+      "created_at": createdAt.toString(),
+      "conversation": jsonEncode(
+        conversation
+            .map((val) => {"prompt": val.prompt, "content": val.content})
+            .toList(),
+      ),
     };
   }
 
@@ -39,13 +40,13 @@ class ChatSessionModel extends ChatSession {
           .map(
             (val) => [
               {
-                "role": uname,
+                "role": "user",
                 "parts": [
                   {"text": val.prompt},
                 ],
               },
               {
-                "role": "Neo",
+                "role": "model",
                 "parts": [
                   {"text": val.content},
                 ],

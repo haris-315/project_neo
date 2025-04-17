@@ -1,4 +1,4 @@
-import 'package:fpdart/src/either.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:project_neo/core/custom_exceptions/server_exception.dart';
 import 'package:project_neo/core/errors/failure.dart';
 import 'package:project_neo/data/models/chat_session_model.dart';
