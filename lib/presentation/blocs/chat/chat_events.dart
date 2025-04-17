@@ -1,5 +1,3 @@
-
-
 part of 'chat_bloc.dart';
 
 abstract class ChatEvent extends Equatable {
@@ -8,6 +6,13 @@ abstract class ChatEvent extends Equatable {
 }
 
 class SendMessage extends ChatEvent {
-  final String message;
-  SendMessage(this.message);
+  final String prompt;
+  final ChatSession session;
+  final String user;
+
+  SendMessage({
+    required this.prompt,
+    required this.session,
+    required this.user,
+  });
 }

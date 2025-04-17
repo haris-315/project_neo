@@ -10,9 +10,8 @@ class ChatInitial extends ChatState {}
 class ChatLoading extends ChatState {}
 
 class ChatSuccess extends ChatState {
-  final String userMessage;
-  final RoleBasedModel botResponse;
-  ChatSuccess(this.userMessage, this.botResponse);
+  final ChatSession currentSession;
+  ChatSuccess(this.currentSession);
 }
 
 class ChatFailure extends ChatState {

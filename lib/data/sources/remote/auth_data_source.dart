@@ -1,11 +1,18 @@
-import 'package:project_neo/core/custom_exceptions/server_exception.dart';
-import 'package:project_neo/data/models/user_model.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:project_neo/core/utils/app_constants.dart';
+import 'package:project_neo/core/utils/session_parser.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import 'package:project_neo/core/custom_exceptions/server_exception.dart';
+import 'package:project_neo/core/services/session_manager.dart';
+import 'package:project_neo/data/models/user_model.dart';
 
 class AuthDataSource {
   final SupabaseClient _client;
+  final SessionManager sessionManager;
 
-  AuthDataSource({required SupabaseClient client}) : _client = client;
+  AuthDataSource({required SupabaseClient client, required this.sessionManager})
+    : _client = client;
   Session? get currentSession => _client.auth.currentSession;
   Future<UserModel> signUp(String email, String password, String name) async {
     try {
@@ -44,16 +51,33 @@ class AuthDataSource {
 
   Future<UserModel?> getUserInfo() async {
     try {
-      if (currentSession != null) {
-        final userInfo = await _client
-            .from("profiles")
-            .select()
-            .eq("id", currentSession!.user.id);
-        return UserModel.fromJson(userInfo.first);
-      }
-      return null;
+      final response = await sessionManager.retrieveSession(
+        AppConstants.sessionKey,
+      );
+      response.fold(
+        (fail) {
+          return null;
+        },
+        (pass) async {
+          if (pass == null) {
+            return null;
+          } else {            try {
+              final res = await _client.auth.setSession(
+                SessionParser.sFromString(pass)!.refreshToken!,
+                
+              );
+
+              return res.session != null ? null : res.session!.user;
+            } catch (e) {
+              print(e);
+              return null;
+            }
+          }
+        },
+      );
     } catch (e) {
       throw ServerException(exception: e.toString());
     }
+    return null;
   }
 }

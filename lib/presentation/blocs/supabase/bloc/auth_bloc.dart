@@ -7,8 +7,8 @@ import 'package:project_neo/core/services/session_manager.dart';
 import 'package:project_neo/core/utils/app_constants.dart';
 import 'package:project_neo/core/utils/session_parser.dart';
 
-import 'package:project_neo/data/models/chat_session.dart';
 import 'package:project_neo/domain/entities/user.dart';
+import 'package:project_neo/domain/usecases/auth/get_user.dart';
 import 'package:project_neo/domain/usecases/auth/user_signin.dart';
 import 'package:project_neo/domain/usecases/auth/user_signup.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sb;
@@ -20,18 +20,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserSignUp _userSignUp;
   final UserSignIn _userSignIn;
   final SessionManager _sessionManager;
-
+  final GetUser _getUserInfo;
+  late User user;
   AuthBloc({
     required UserSignUp userSignUp,
     required UserSignIn userSignIn,
     required SessionManager sessionManager,
+    required GetUser getUserInfo,
   }) : _userSignUp = userSignUp,
        _userSignIn = userSignIn,
+       _getUserInfo = getUserInfo,
        _sessionManager = sessionManager,
        super(AuthInitial()) {
     on<SignUp>(onSignUp);
 
     on<SignIn>(onSignIn);
+
+    on<GetUserInfoEvent>(onGetUserInfo);
   }
 
   FutureOr<void> onSignUp(SignUp event, Emitter<AuthState> emit) async {
@@ -65,9 +70,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         SessionParser.sToString(currentSession!),
       );
 
-      print(smResponse);
       emit(AuthSuccess(user: success, handledException: smResponse));
     });
   }
 
+  FutureOr<void> onGetUserInfo(
+    GetUserInfoEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    print("recived Event");
+    emit(AuthLoading());
+    final response = await _getUserInfo(null);
+
+    response.fold((fail) => emit(AuthError(message: fail.message)), (success) {
+      if (success != null) {
+        user = success;
+
+        emit(AuthSuccess(user: success));
+        print("emit suc");
+      } else {
+        emit(AuthError(message: "User session not available."));
+        print("emit fail");
+      }
+    });
+  }
 }

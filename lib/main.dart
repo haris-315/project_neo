@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:project_neo/core/theme/theme_palette.dart';
+import 'package:project_neo/presentation/blocs/chat/chat_bloc.dart';
 import 'package:project_neo/presentation/blocs/supabase/bloc/auth_bloc.dart';
-import 'package:project_neo/presentation/screens/auth/signin_screen.dart';
-import 'package:project_neo/presentation/screens/auth/signup_screen.dart';
 import 'package:project_neo/presentation/screens/chat_screen.dart';
 import 'package:project_neo/init_dpndncs.dart';
 import 'package:project_neo/presentation/screens/splash/startup_screen.dart';
@@ -14,7 +13,10 @@ Future<void> main() async {
   await initDependencies();
   runApp(
     MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => serviceLocator<AuthBloc>())],
+      providers: [
+        BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
+        BlocProvider(create: (_) => serviceLocator<ChatBloc>()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -32,8 +34,6 @@ class MyApp extends StatelessWidget {
       initialRoute: "/startup",
       routes: {
         '/chat': (context) => ChatScreen(),
-        '/signup': (context) => SignUpScreen(),
-        '/signin': (context) => SignInScreen(),
         '/startup': (context) => StartupScreen(),
       },
     );

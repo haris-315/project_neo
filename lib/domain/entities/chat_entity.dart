@@ -1,6 +1,6 @@
-final class ChatEntity {
-  final String role;
+class ChatEntity {
+  final String prompt;
   final String content;
 
-  ChatEntity({required this.role, required this.content});
+  ChatEntity({required this.prompt, required this.content});
 }
