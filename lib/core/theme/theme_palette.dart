@@ -12,6 +12,7 @@ class AppTheme {
   static const Color supernova = Color(0xFFFFD700);
   static const Color darkMatter = Color(0xFF1E1E1E);
   static const Color eventHorizon = Color(0xFF2A2A2A);
+  static const Color neonPurple = Color.fromARGB(94, 60, 0, 0);
 
   // Gradients
   static const Gradient cosmicGradient = LinearGradient(
@@ -21,7 +22,10 @@ class AppTheme {
   );
 
   static const Gradient subtleGlow = LinearGradient(
-    colors: [Colors.transparent, Colors.white12],
+    colors: [
+      Color.fromARGB(36, 255, 255, 255),
+      Color.fromARGB(85, 197, 103, 103),
+    ],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );

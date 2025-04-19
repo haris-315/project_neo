@@ -6,7 +6,7 @@ import 'package:project_neo/core/utils/display_snackbar.dart';
 import 'package:project_neo/core/utils/email_validate.dart';
 import 'package:project_neo/core/utils/pass_validate.dart';
 import 'package:project_neo/core/utils/slide_push.dart';
-import 'package:project_neo/presentation/blocs/supabase/bloc/auth_bloc.dart';
+import 'package:project_neo/presentation/blocs/auth/auth_bloc.dart';
 import 'package:project_neo/presentation/screens/auth/signin_screen.dart';
 import 'package:project_neo/presentation/widgets/auth/navigation_text.dart';
 

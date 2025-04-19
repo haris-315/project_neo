@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_neo/domain/entities/chat_session.dart';
+import 'package:project_neo/domain/entities/chat/chat_session.dart';
+import 'package:project_neo/presentation/widgets/chat/chat_bubble.dart';
 import 'package:project_neo/presentation/widgets/chat/prompt_input.dart';
-import 'package:project_neo/presentation/widgets/md_rendrer.dart';
+import 'package:project_neo/presentation/widgets/chat/sessions_drawer.dart';
+
 import '../../blocs/chat/chat_bloc.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -15,53 +17,61 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   ChatSession session = ChatSession.empty();
+  final ScrollController scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Neo")),
-      body: Column(
-        children: [
-          Expanded(
-            child: BlocBuilder<ChatBloc, ChatState>(
-              builder: (context, state) {
-                if (state is ChatLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (state is ChatSuccess) {
-                  final session = state.currentSession;
-                  final conversation = session.conversation;
-                  return ListView.builder(
-                    padding: const EdgeInsets.all(8),
-                    itemCount: conversation.length,
-                    itemBuilder: (context, index) {
-                      final message = conversation[index];
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListTile(title: Text("You: ${message.prompt}")),
-                          const ListTile(title: Text("Neo")),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16.0,
-                            ),
-                            child: MarkdownViewer(
-                              markdownText:
-                                  message.content, // Use the response here
-                            ),
+    return BlocConsumer<ChatBloc, ChatState>(
+      listener: (context, state) {
+        if (state is ChatSuccess) {
+          session = state.currentSession;
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(title: const Text("Neo")),
+          drawer: SessionsDrawer(),
+          body: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  controller: scrollController,
+                  padding: const EdgeInsets.all(8),
+                  itemCount: session.conversation.length,
+                  itemBuilder: (context, index) {
+                    final message = session.conversation[index];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // ListTile(title: Text("You: ${message.prompt}")),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: MessageBubble(content: message.prompt),
+                        ),
+                        const ListTile(title: Text("Neo")),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: MessageBubble(
+                            content: message.content,
+                            isNeo: true,
                           ),
-                          const Divider(),
-                        ],
-                      );
-                    },
-                  );
-                }
-                return const Center(child: Text("Start a conversation!"));
-              },
-            ),
+                        ),
+                        const Divider(),
+                      ],
+                    );
+                  },
+                ),
+              ),
+              PromptInput(
+                controller: _controller,
+                session: session,
+                scrollController: scrollController,
+                isLoading: state is ChatLoading,
+              ),
+            ],
           ),
-          PromptInput(controller: _controller, session: session),
-        ],
-      ),
+        );
+      },
     );
   }
 }

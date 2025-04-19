@@ -4,10 +4,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_neo/core/errors/failure.dart';
 import 'package:project_neo/core/services/session_manager.dart';
-import 'package:project_neo/core/utils/app_constants.dart';
+import 'package:project_neo/core/shared/constants/app_constants.dart';
 import 'package:project_neo/core/utils/session_parser.dart';
 
-import 'package:project_neo/domain/entities/user.dart';
+import 'package:project_neo/domain/entities/auth/user.dart';
 import 'package:project_neo/domain/usecases/auth/get_user.dart';
 import 'package:project_neo/domain/usecases/auth/user_signin.dart';
 import 'package:project_neo/domain/usecases/auth/user_signup.dart';

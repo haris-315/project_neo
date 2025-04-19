@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:project_neo/data/models/chat_model.dart';
-import 'package:project_neo/domain/entities/chat_session.dart';
+import 'package:project_neo/domain/entities/chat/chat_session.dart';
 
 class ChatSessionModel extends ChatSession {
   ChatSessionModel({
@@ -25,8 +25,9 @@ class ChatSessionModel extends ChatSession {
   }
   Map<String, dynamic> toJson() {
     return {
+      "identifier": identifier,
       "title": title,
-      "created_at": createdAt.toString(),
+      "created_at": createdAt.toIso8601String(),
       "conversation": jsonEncode(
         conversation
             .map((val) => {"prompt": val.prompt, "content": val.content})

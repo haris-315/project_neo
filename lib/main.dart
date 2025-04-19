@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:project_neo/core/theme/theme_palette.dart';
-import 'package:project_neo/presentation/blocs/chat/chat_bloc.dart';
-import 'package:project_neo/presentation/blocs/supabase/bloc/auth_bloc.dart';
-import 'package:project_neo/presentation/screens/chat/chat_screen.dart';
 import 'package:project_neo/init_dpndncs.dart';
+import 'package:project_neo/presentation/blocs/auth/auth_bloc.dart';
+import 'package:project_neo/presentation/blocs/chat/chat_bloc.dart';
+import 'package:project_neo/presentation/blocs/sessions/sessions_bloc.dart';
+import 'package:project_neo/presentation/screens/chat/chat_screen.dart';
 import 'package:project_neo/presentation/screens/splash/startup_screen.dart';
 
 Future<void> main() async {
@@ -16,6 +17,7 @@ Future<void> main() async {
       providers: [
         BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
         BlocProvider(create: (_) => serviceLocator<ChatBloc>()),
+        BlocProvider(create: (_) => serviceLocator<SessionsBloc>()),
       ],
       child: const MyApp(),
     ),

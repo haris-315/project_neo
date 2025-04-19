@@ -6,12 +6,15 @@ import 'package:project_neo/data/repositories/chat_repo_impl.dart';
 import 'package:project_neo/data/sources/remote/auth_data_source.dart';
 import 'package:project_neo/data/sources/remote/chat_source.dart';
 import 'package:project_neo/domain/repositories/auth_repo.dart';
+import 'package:project_neo/domain/repositories/chat_repo.dart';
 import 'package:project_neo/domain/usecases/auth/get_user.dart';
 import 'package:project_neo/domain/usecases/auth/user_signin.dart';
 import 'package:project_neo/domain/usecases/auth/user_signup.dart';
-import 'package:project_neo/domain/usecases/gemini/get_chat_response.dart';
+import 'package:project_neo/domain/usecases/chat/get_chat_response.dart';
+import 'package:project_neo/domain/usecases/chat/get_sessions_info.dart';
 import 'package:project_neo/presentation/blocs/chat/chat_bloc.dart';
-import 'package:project_neo/presentation/blocs/supabase/bloc/auth_bloc.dart';
+import 'package:project_neo/presentation/blocs/auth/auth_bloc.dart';
+import 'package:project_neo/presentation/blocs/sessions/sessions_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:get_it/get_it.dart';
 
@@ -54,10 +57,14 @@ void _initAuth() {
       ),
     )
     // {Chat Dependencies}
-    ..registerFactory(() => GeminiDataSource(client: serviceLocator()))
-    ..registerFactory(() => ChatRepoImpl(geminiDataSource: serviceLocator()))
-    ..registerFactory(
-      () => GetChatResponse(chatRepo: serviceLocator<ChatRepoImpl>()),
+    ..registerFactory(() => ChatRemoteDataSource(client: serviceLocator()))
+    ..registerFactory<ChatRepo>(
+      () => ChatRepoImpl(chatRemoteDataSource: serviceLocator()),
+    )
+    ..registerFactory(() => GetChatResponse(chatRepo: serviceLocator()))
+    ..registerLazySingleton(() => GetSessionsInfo(chatRepo: serviceLocator()))
+    ..registerLazySingleton(
+      () => SessionsBloc(getSessionInfo: serviceLocator()),
     )
     ..registerLazySingleton(() => ChatBloc(getChatResponse: serviceLocator()));
 }

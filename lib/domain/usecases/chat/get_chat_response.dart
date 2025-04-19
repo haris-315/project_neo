@@ -1,5 +1,5 @@
 import 'package:project_neo/core/usecase/usecase_interface.dart';
-import 'package:project_neo/domain/entities/chat_session.dart';
+import 'package:project_neo/domain/entities/chat/chat_session.dart';
 import 'package:project_neo/domain/repositories/chat_repo.dart';
 
 class GetChatResponse implements UsecaseInterface<ChatSession, ChatParams> {

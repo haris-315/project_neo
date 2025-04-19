@@ -1,4 +1,4 @@
-import 'package:project_neo/domain/entities/user.dart';
+import 'package:project_neo/domain/entities/auth/user.dart';
 
 class UserModel extends User {
   UserModel({required super.id, required super.name, required super.email});

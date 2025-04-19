@@ -1,6 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:project_neo/core/errors/failure.dart';
-import 'package:project_neo/domain/entities/user.dart';
+import 'package:project_neo/domain/entities/auth/user.dart';
 
 abstract interface class AuthRepo {
   Future<Either<Failure,User>> signUp({required String name, required String email, required String password});

@@ -1,10 +1,10 @@
-import 'package:project_neo/domain/entities/chat_entity.dart';
+import 'package:project_neo/domain/entities/chat/chat_entity.dart';
 
 class ChatSession {
-  final String title;
+  String title;
   final DateTime createdAt;
   final String id;
-  final String identifier;
+  String identifier;
   List<ChatEntity> conversation;
   ChatSession({
     required this.title,

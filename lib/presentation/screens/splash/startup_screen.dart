@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_neo/core/theme/theme_palette.dart';
 import 'package:project_neo/core/utils/slide_push.dart';
-import 'package:project_neo/presentation/blocs/supabase/bloc/auth_bloc.dart';
+import 'package:project_neo/presentation/blocs/auth/auth_bloc.dart';
 import 'package:project_neo/presentation/screens/auth/signin_screen.dart';
 import 'package:project_neo/presentation/screens/chat/chat_screen.dart';
 

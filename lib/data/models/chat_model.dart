@@ -1,4 +1,4 @@
-import 'package:project_neo/domain/entities/chat_entity.dart';
+import 'package:project_neo/domain/entities/chat/chat_entity.dart';
 
 class ChatModel extends ChatEntity {
   ChatModel({required super.prompt, required super.content});

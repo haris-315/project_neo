@@ -1,14 +1,18 @@
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:project_neo/core/custom_exceptions/server_exception.dart';
+import 'package:project_neo/core/shared/constants/app_constants.dart';
+import 'package:project_neo/core/utils/generate_session_title.dart';
 import 'package:project_neo/data/models/chat_model.dart';
 import 'package:project_neo/data/models/chat_session_model.dart';
-import 'package:project_neo/domain/entities/chat_session.dart';
+import 'package:project_neo/data/models/session_placeholder_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:uuid/uuid.dart';
 
-class GeminiDataSource {
+class ChatRemoteDataSource {
   final SupabaseClient client;
   final String apiKey =
       kDebugMode
@@ -23,24 +27,55 @@ class GeminiDataSource {
 
   int currentModelIndex = 0;
 
-  GeminiDataSource({required this.client});
+  ChatRemoteDataSource({required this.client});
+  Future<List<SessionPlaceholderModel>> getSessionsInfo({
+    required String userId,
+  }) async {
+    try {
+      final List data = await client
+          .from(AppConstants.sessionsTable)
+          .select("title, created_at")
+          .eq("id", userId);
+      final List<SessionPlaceholderModel> info =
+          data.map((e) => SessionPlaceholderModel.fromJson(e)).toList();
+      return info;
+    } catch (e) {
+      print(e);
+      throw ServerException(
+        exception: "An error occured while fetching sessions.",
+      );
+    }
+  }
 
-  Future<ChatSession> getResponse(
+  Future<ChatSessionModel> getResponse(
     String prompt,
     ChatSessionModel session,
     String user,
   ) async {
-    print(session.contextMemory(user).expand((innerList) => innerList));
     String apiUrl =
         "https://generativelanguage.googleapis.com/v1/models/${geminiModels[currentModelIndex]}:generateContent?key=$apiKey";
-    print(prompt);
     try {
+      const maxContextSize = 18;
+      const trimCount = 3;
+
+      final contextMemory =
+          session.contextMemory(user).expand((e) => e).toList();
+
+      if (contextMemory.length > maxContextSize) {
+        contextMemory.removeRange(0, trimCount);
+      }
       final response = await http.post(
         Uri.parse(apiUrl),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           "contents": [
-            ...session.contextMemory(user).expand((innerList) => innerList),
+            {
+              "role": "user",
+              "parts": [
+                {"text": AppConstants.devInfo},
+              ],
+            },
+            ...contextMemory,
             {
               "role": "user",
               "parts": [
@@ -50,7 +85,6 @@ class GeminiDataSource {
           ],
         }),
       );
-      print(response.body);
       if (response.statusCode == 429) {
         if (currentModelIndex < geminiModels.length - 1) {
           currentModelIndex++;
@@ -65,7 +99,15 @@ class GeminiDataSource {
       session.conversation.add(
         ChatModel.fromJson(jsonDecode(response.body), prompt),
       );
-      await client.from("sessions").upsert(session.toJson(), onConflict: "id");
+      if (session.identifier.isEmpty) {
+  session.identifier = const Uuid().v4();
+}
+if (session.title.isEmpty) {
+  session.title = generateSessionTitle(session.conversation.first.prompt);
+}
+      await client
+          .from("sessions")
+          .upsert(session.toJson(), onConflict: "identifier");
       return session;
     } catch (e) {
       if (kDebugMode) {

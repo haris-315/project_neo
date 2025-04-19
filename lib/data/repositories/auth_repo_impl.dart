@@ -3,7 +3,7 @@ import 'package:project_neo/core/custom_exceptions/server_exception.dart';
 
 import 'package:project_neo/core/errors/failure.dart';
 import 'package:project_neo/data/sources/remote/auth_data_source.dart';
-import 'package:project_neo/domain/entities/user.dart';
+import 'package:project_neo/domain/entities/auth/user.dart';
 import 'package:project_neo/domain/repositories/auth_repo.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 

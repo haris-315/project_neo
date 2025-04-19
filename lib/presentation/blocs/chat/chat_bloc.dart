@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:project_neo/domain/entities/chat_session.dart';
-import 'package:project_neo/domain/usecases/gemini/get_chat_response.dart';
+import 'package:project_neo/domain/entities/chat/chat_session.dart';
+import 'package:project_neo/domain/usecases/chat/get_chat_response.dart';
 
 part 'chat_events.dart';
 part 'chat_states.dart';
