@@ -12,3 +12,10 @@ class GetSessionsInfoEvent extends SessionsEvent {
 
   const GetSessionsInfoEvent({required this.userId});
 }
+
+class DeleteSessionEvent extends SessionsEvent {
+  final String identifier;
+  final String userId;
+
+  const DeleteSessionEvent({required this.identifier, required this.userId});
+}

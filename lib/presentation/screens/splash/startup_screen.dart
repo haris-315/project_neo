@@ -55,7 +55,7 @@ class _StartupContent extends StatelessWidget {
             Text(
               "Securely validating your credentials",
               style: TextStyle(
-                color: AppTheme.nebulaBlue.withOpacity(0.7),
+                color: AppTheme.nebulaBlue.withValues(alpha: 0.7),
                 fontSize: 14,
               ),
             ),
@@ -71,7 +71,7 @@ class _StartupContent extends StatelessWidget {
       width: 150,
       height: 150,
       decoration: BoxDecoration(
-        color: AppTheme.nebulaBlue.withOpacity(0.1),
+        color: AppTheme.nebulaBlue.withValues(alpha: 0.1),
         shape: BoxShape.circle,
       ),
       child: Center(

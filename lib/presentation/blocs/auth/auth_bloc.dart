@@ -78,7 +78,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     GetUserInfoEvent event,
     Emitter<AuthState> emit,
   ) async {
-    print("recived Event");
     emit(AuthLoading());
     final response = await _getUserInfo(null);
 
@@ -87,10 +86,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         user = success;
 
         emit(AuthSuccess(user: success));
-        print("emit suc");
       } else {
         emit(AuthError(message: "User session not available."));
-        print("emit fail");
       }
     });
   }

@@ -47,6 +47,7 @@ dependencies:
   loading_gifs: ^0.3.0
   intl: ^0.20.2
   uuid: ^4.5.1
+  flutter_native_splash: ^2.4.6
 
 dev_dependencies:
   flutter_test:
@@ -102,3 +103,12 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+# splash screen section
+
+flutter_native_splash:
+  color: "#22252c"           # Background color (hex or name)
+  image: assets/splash.png   # Your splash image path (optional)
+  android_12:
+    color: "#22252c"
+    image: assets/splash.png

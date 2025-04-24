@@ -10,7 +10,9 @@ import 'package:project_neo/domain/repositories/chat_repo.dart';
 import 'package:project_neo/domain/usecases/auth/get_user.dart';
 import 'package:project_neo/domain/usecases/auth/user_signin.dart';
 import 'package:project_neo/domain/usecases/auth/user_signup.dart';
+import 'package:project_neo/domain/usecases/chat/delete_session.dart';
 import 'package:project_neo/domain/usecases/chat/get_chat_response.dart';
+import 'package:project_neo/domain/usecases/chat/get_session.dart';
 import 'package:project_neo/domain/usecases/chat/get_sessions_info.dart';
 import 'package:project_neo/presentation/blocs/chat/chat_bloc.dart';
 import 'package:project_neo/presentation/blocs/auth/auth_bloc.dart';
@@ -63,8 +65,18 @@ void _initAuth() {
     )
     ..registerFactory(() => GetChatResponse(chatRepo: serviceLocator()))
     ..registerLazySingleton(() => GetSessionsInfo(chatRepo: serviceLocator()))
+    ..registerFactory(() => DeleteSession(chatRepo: serviceLocator()))
     ..registerLazySingleton(
-      () => SessionsBloc(getSessionInfo: serviceLocator()),
+      () => SessionsBloc(
+        getSessionInfo: serviceLocator(),
+        deleteSession: serviceLocator(),
+      ),
     )
-    ..registerLazySingleton(() => ChatBloc(getChatResponse: serviceLocator()));
+    ..registerFactory(() => GetSession(chatRepo: serviceLocator()))
+    ..registerLazySingleton(
+      () => ChatBloc(
+        getChatResponse: serviceLocator(),
+        getSession: serviceLocator(),
+      ),
+    );
 }

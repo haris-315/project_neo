@@ -16,3 +16,11 @@ class SendMessage extends ChatEvent {
     required this.user,
   });
 }
+
+class GetSessionEvent extends ChatEvent {
+  final String identifier;
+
+  GetSessionEvent({
+    required this.identifier
+  });
+}

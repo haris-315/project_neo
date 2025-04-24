@@ -34,15 +34,51 @@ class ChatRemoteDataSource {
     try {
       final List data = await client
           .from(AppConstants.sessionsTable)
-          .select("title, created_at")
+          .select("title, created_at, identifier")
           .eq("id", userId);
       final List<SessionPlaceholderModel> info =
           data.map((e) => SessionPlaceholderModel.fromJson(e)).toList();
       return info;
     } catch (e) {
-      print(e);
       throw ServerException(
         exception: "An error occured while fetching sessions.",
+      );
+    }
+  }
+
+  Future<ChatSessionModel> getSession({required String identifier}) async {
+    try {
+      final data = await client
+          .from(AppConstants.sessionsTable)
+          .select()
+          .eq("identifier", identifier);
+
+      final ChatSessionModel info = ChatSessionModel.fromJson(data.first);
+      return info;
+    } catch (e) {
+      throw ServerException(
+        exception: "An error occured while fetching session id $identifier.",
+      );
+    }
+  }
+
+  Future<List<SessionPlaceholderModel>> deleteSession({
+    required String identifier,
+    required String userId,
+  }) async {
+    try {
+      await client
+          .from(AppConstants.sessionsTable)
+          .delete()
+          .eq("identifier", identifier);
+      final List<SessionPlaceholderModel> info = await getSessionsInfo(
+        userId: userId,
+      );
+      // data.map((e) => SessionPlaceholderModel.fromJson(e)).toList();
+      return info;
+    } catch (e) {
+      throw ServerException(
+        exception: "An error occured while refreshing sessions.",
       );
     }
   }
@@ -100,11 +136,11 @@ class ChatRemoteDataSource {
         ChatModel.fromJson(jsonDecode(response.body), prompt),
       );
       if (session.identifier.isEmpty) {
-  session.identifier = const Uuid().v4();
-}
-if (session.title.isEmpty) {
-  session.title = generateSessionTitle(session.conversation.first.prompt);
-}
+        session.identifier = const Uuid().v4();
+      }
+      if (session.title.isEmpty) {
+        session.title = generateSessionTitle(session.conversation.first.prompt);
+      }
       await client
           .from("sessions")
           .upsert(session.toJson(), onConflict: "identifier");

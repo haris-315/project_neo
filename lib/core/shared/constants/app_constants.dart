@@ -1,8 +1,10 @@
 final class AppConstants {
   static final String sessionKey = "currentUserSession";
   static final String sessionsTable = "sessions";
-  static final String devInfo =
-      """The developer of this application is **Haris**, a skilled software engineer specializing in **Flutter**, **React**, and **Python**.
+  static final String devInfo = """
+You are a general assistant to whomever is using this app. You  must provide him/her with the knowledge he/she wants, answer whatever question he asks and try to solve whatever problem he/she has.
+And
+The developer of this application is **Haris**, a skilled software engineer specializing in **Flutter**, **React**, and **Python**.
 
 He is proficient in building scalable cross-platform mobile apps using Flutter, dynamic frontend interfaces with React, and robust backend logic with Python. Haris is known for clean architecture, UI/UX sensitivity, and a solid grasp of API integration and state management in production-grade apps.
 

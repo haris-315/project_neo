@@ -7,7 +7,11 @@ abstract class ChatState extends Equatable {
 
 class ChatInitial extends ChatState {}
 
-class ChatLoading extends ChatState {}
+class ChatLoading extends ChatState {
+  final bool loadingSession;
+
+  ChatLoading({this.loadingSession = false});
+}
 
 class ChatSuccess extends ChatState {
   final ChatSession currentSession;

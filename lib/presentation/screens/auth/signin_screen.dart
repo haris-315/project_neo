@@ -4,7 +4,10 @@ import 'package:project_neo/core/shared/widgets/loading_indicator.dart';
 import 'package:project_neo/core/theme/theme_palette.dart';
 import 'package:project_neo/core/utils/display_snackbar.dart';
 import 'package:project_neo/core/utils/email_validate.dart';
+import 'package:project_neo/core/utils/slide_push.dart';
 import 'package:project_neo/presentation/blocs/auth/auth_bloc.dart';
+import 'package:project_neo/presentation/screens/auth/signup_screen.dart';
+import 'package:project_neo/presentation/screens/chat/chat_screen.dart';
 import 'package:project_neo/presentation/widgets/auth/navigation_text.dart'
     show NavigationText;
 
@@ -45,8 +48,10 @@ class _SignInScreenState extends State<SignInScreen> {
               showSnackBar(context, state.message);
             }
             if (state is AuthSuccess) {
-              print(state.user!.name);
-              print(state.user!.email);
+              Navigator.pushReplacement(
+                context,
+                SlidePageRoute(page: ChatScreen()),
+              );
             }
           },
           builder: (context, state) {
@@ -130,9 +135,12 @@ class _SignInScreenState extends State<SignInScreen> {
                   SizedBox(height: 20),
                   NavigationText(
                     t1: "Don't have an account? ",
-                    t2: "Sign In",
+                    t2: "Sign Up",
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        SlidePageRoute(page: SignUpScreen()),
+                      );
                     },
                   ),
                 ],

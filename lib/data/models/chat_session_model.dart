@@ -12,15 +12,16 @@ class ChatSessionModel extends ChatSession {
     required super.identifier,
   });
   factory ChatSessionModel.fromJson(Map<String, dynamic> json) {
+
     return ChatSessionModel(
       id: json['id'],
       identifier: json['identifier'],
       title: json['title'],
-      createdAt: DateTime.parse(json['createdAt']),
+      createdAt: DateTime.parse(json['created_at']),
       conversation:
-          (json['conversation'] as List<Map<String, dynamic>>)
-              .map((val) => ChatModel.fromMap(val))
-              .toList(),
+          (jsonDecode(json['conversation']) as List<dynamic>).map((val) {
+            return ChatModel.fromMap(jsonDecode(val));
+          }).toList(),
     );
   }
   Map<String, dynamic> toJson() {
@@ -30,7 +31,10 @@ class ChatSessionModel extends ChatSession {
       "created_at": createdAt.toIso8601String(),
       "conversation": jsonEncode(
         conversation
-            .map((val) => {"prompt": val.prompt, "content": val.content})
+            .map(
+              (val) =>
+                  jsonEncode({"prompt": val.prompt, "content": val.content}),
+            )
             .toList(),
       ),
     };

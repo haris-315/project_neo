@@ -16,7 +16,7 @@ class MessageBubble extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 4),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppTheme.cosmicPurple.withValues(alpha: 0.2),
+        color: AppTheme.eventHorizon.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -38,11 +38,14 @@ class MessageBubble extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  getUser(context).name,
-                  style: TextStyle(
-                    color: AppTheme.nebulaBlue,
-                    fontWeight: FontWeight.bold,
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    isNeo ? "Neo" : getUser(context).name,
+                    style: TextStyle(
+                      color: isNeo ? AppTheme.stardust : AppTheme.nebulaBlue,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 4),

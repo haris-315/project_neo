@@ -5,6 +5,7 @@ import 'package:project_neo/data/models/chat_session_model.dart';
 import 'package:project_neo/data/models/session_placeholder_model.dart';
 import 'package:project_neo/data/sources/remote/chat_source.dart';
 import 'package:project_neo/domain/entities/chat/chat_session.dart';
+import 'package:project_neo/domain/entities/chat/session_placeholder.dart';
 import 'package:project_neo/domain/repositories/chat_repo.dart';
 
 class ChatRepoImpl implements ChatRepo {
@@ -42,6 +43,26 @@ class ChatRepoImpl implements ChatRepo {
   }) async {
     try {
       final res = await chatRemoteDataSource.getSessionsInfo(userId: userId);
+      return right(res);
+    } on ServerException catch (e) {
+      return left(Failure(message: e.exception));
+    }
+  }
+@override
+  Future<Either<Failure, ChatSessionModel>> getSession({
+    required String identifier,
+  }) async {
+    try {
+      final res = await chatRemoteDataSource.getSession(identifier: identifier);
+      return right(res);
+    } on ServerException catch (e) {
+      return left(Failure(message: e.exception));
+    }
+  }
+  @override
+  Future<Either<Failure, List<SessionPlaceholder>>> deleteSession({required String identifier,required String userId}) async {
+    try {
+      final res = await chatRemoteDataSource.deleteSession(identifier: identifier, userId: userId);
       return right(res);
     } on ServerException catch (e) {
       return left(Failure(message: e.exception));

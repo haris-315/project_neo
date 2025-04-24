@@ -16,6 +16,7 @@ Future<void> main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
+        
         BlocProvider(create: (_) => serviceLocator<ChatBloc>()),
         BlocProvider(create: (_) => serviceLocator<SessionsBloc>()),
       ],

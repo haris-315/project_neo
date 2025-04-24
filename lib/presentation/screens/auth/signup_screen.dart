@@ -131,7 +131,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     t1: "Already have an account! ",
                     t2: "Sign In",
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                         context,
                         SlidePageRoute(page: SignInScreen()),
                       );
