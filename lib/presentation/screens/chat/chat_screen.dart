@@ -4,6 +4,7 @@ import 'package:project_neo/core/theme/theme_palette.dart';
 import 'package:project_neo/domain/entities/chat/chat_session.dart';
 import 'package:project_neo/presentation/widgets/chat/chat_bubble.dart';
 import 'package:project_neo/presentation/widgets/chat/empty_chat.dart';
+import 'package:project_neo/presentation/widgets/chat/md_rendrer.dart';
 import 'package:project_neo/presentation/widgets/chat/prompt_input.dart';
 import 'package:project_neo/presentation/widgets/chat/sessions_drawer.dart';
 
@@ -28,16 +29,42 @@ class _ChatScreenState extends State<ChatScreen> {
         if (state is ChatSuccess) {
           session = state.currentSession;
         }
+        if (state is ChatFailure) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                backgroundColor: AppTheme.neonPurple,
+                content: Text(state.error),
+                duration: Duration(seconds: 7),
+              ),
+            );
+        }
       },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            forceMaterialTransparency: false,
+            shadowColor: Colors.transparent,
+            foregroundColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
             title: const Text(
-              "N e o",
-              style: TextStyle(color: AppTheme.nebulaBlue, fontFamily: ""),
+              "Neo",
+              style: TextStyle(
+                color: AppTheme.nebulaBlue,
+                fontFamily: "wilker",
+              ),
             ),
           ),
-          drawer: SessionsDrawer(),
+          drawer: SessionsDrawer(
+            onNewSession: () {
+              setState(() {
+                session = ChatSession.empty();
+              });
+              Navigator.pop(context);
+            },
+          ),
           body: Stack(
             children: [
               state is ChatLoading && state.loadingSession
@@ -65,17 +92,21 @@ class _ChatScreenState extends State<ChatScreen> {
                                   // ListTile(title: Text("You: ${message.prompt}")),
                                   Align(
                                     alignment: Alignment.centerRight,
-                                    child: MessageBubble(
-                                      content: message.prompt,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 23.0,
+                                      ),
+                                      child: MessageBubble(
+                                        content: message.prompt,
+                                      ),
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 16.0,
                                     ),
-                                    child: MessageBubble(
-                                      content: message.content,
-                                      isNeo: true,
+                                    child: MarkdownViewer(
+                                      markdownText: message.content,
                                     ),
                                   ),
                                   const Divider(),
@@ -84,6 +115,8 @@ class _ChatScreenState extends State<ChatScreen> {
                             },
                           ),
                         ),
+
+                      SizedBox(height: 90),
                     ],
                   ),
 

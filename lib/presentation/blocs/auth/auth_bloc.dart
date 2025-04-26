@@ -69,7 +69,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         AppConstants.sessionKey,
         SessionParser.sToString(currentSession!),
       );
-
+      user = success;
       emit(AuthSuccess(user: success, handledException: smResponse));
     });
   }

@@ -25,10 +25,12 @@ class SessionsBloc extends Bloc<SessionsEvent, SessionsState> {
     GetSessionsInfoEvent event,
     Emitter<SessionsState> emit,
   ) async {
-    emit(SessionsLoading());
-    if (sessionsInfo.isNotEmpty) {
+    if (sessionsInfo.isNotEmpty && !event.fetchExternal) {
+      emit(SessionsLoading());
       emit(SessionsSuccess(sessionsInfo: sessionsInfo));
     } else {
+      emit(SessionsLoading(initialLoading: event.fetchExternal ? false : true));
+
       final res = await _getSessionsInfo(event.userId);
       res.fold((fail) => emit(SessionsError(error: fail.message)), (success) {
         sessionsInfo = success;

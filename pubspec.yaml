@@ -48,6 +48,9 @@ dependencies:
   intl: ^0.20.2
   uuid: ^4.5.1
   flutter_native_splash: ^2.4.6
+  flutter_spinkit: ^5.2.1
+  flutter_highlight: ^0.7.0
+
 
 dev_dependencies:
   flutter_test:
@@ -89,10 +92,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+fonts:
+  - family: wilker
+    fonts:
+      - asset: /assets/fonts/wilker.otf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
@@ -107,8 +110,8 @@ flutter:
 # splash screen section
 
 flutter_native_splash:
-  color: "#22252c"           # Background color (hex or name)
+  color: "#241f31"           # Background color (hex or name)
   image: assets/splash.png   # Your splash image path (optional)
   android_12:
-    color: "#22252c"
+    color: "#241f31"
     image: assets/splash.png

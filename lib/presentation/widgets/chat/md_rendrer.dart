@@ -12,7 +12,7 @@ class MarkdownViewer extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: MarkdownBody(
         data: markdownText,
-        selectable: true, 
+        selectable: true,
         styleSheet: MarkdownStyleSheet(
           codeblockDecoration: BoxDecoration(
             color: Colors.black87,

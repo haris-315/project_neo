@@ -9,7 +9,11 @@ sealed class SessionsState extends Equatable {
 
 final class SessionsInitial extends SessionsState {}
 
-final class SessionsLoading extends SessionsState {}
+final class SessionsLoading extends SessionsState {
+  final bool initialLoading;
+
+  const SessionsLoading({this.initialLoading=false});
+}
 
 final class SessionsError extends SessionsState {
   final String error;

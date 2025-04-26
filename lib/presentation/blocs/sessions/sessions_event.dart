@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'sessions_bloc.dart';
 
 sealed class SessionsEvent extends Equatable {
@@ -9,8 +10,12 @@ sealed class SessionsEvent extends Equatable {
 
 class GetSessionsInfoEvent extends SessionsEvent {
   final String userId;
+  final bool fetchExternal;
 
-  const GetSessionsInfoEvent({required this.userId});
+  const GetSessionsInfoEvent({
+    required this.userId,
+    this.fetchExternal = false,
+  });
 }
 
 class DeleteSessionEvent extends SessionsEvent {

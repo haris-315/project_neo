@@ -14,10 +14,9 @@ import 'package:uuid/uuid.dart';
 
 class ChatRemoteDataSource {
   final SupabaseClient client;
-  final String apiKey =
-      kDebugMode
-          ? dotenv.env["GEMINI_API_KEY"]!
-          : String.fromEnvironment("GEMINI_API_KEY");
+  final String apiKey = dotenv.env["GEMINI_API_KEY"] ?? "";
+  // kDebugMode
+  // : String.fromEnvironment("GEMINI_API_KEY");
   final List<String> geminiModels = [
     "gemini-2.0-flash-lite",
     "gemini-2.0-flash",

@@ -58,6 +58,13 @@ class _PromptInputState extends State<PromptInput> {
   }
 
   @override
+  void dispose() {
+    focusNode.removeListener(_handleFocus);
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     focusNode.addListener(_handleFocus);
@@ -130,7 +137,13 @@ class SendButton extends StatelessWidget {
           isFieldEmpty
               ? null
               : () {
-                handleSend(context, focusNode, widget, scrollController);
+                handleSend(
+                  context,
+                  focusNode,
+                  widget.controller,
+                  widget.session,
+                  scrollController,
+                );
               },
     );
   }
@@ -167,6 +180,15 @@ class Input extends StatelessWidget {
         fillColor: Colors.transparent,
         contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       ),
+      onSubmitted: (value) {
+        handleSend(
+          context,
+          focusNode,
+          widget.controller,
+          widget.session,
+          widget.scrollController,
+        );
+      },
     );
   }
 }
@@ -174,17 +196,17 @@ class Input extends StatelessWidget {
 void handleSend(
   BuildContext context,
   FocusNode focusNode,
-  dynamic widget,
+  TextEditingController controller,
+  ChatSession session,
   ScrollController scrollController,
 ) {
   context.read<ChatBloc>().add(
     SendMessage(
-      prompt: widget.controller.text,
-      session: widget.session,
+      prompt: controller.text,
+      session: session,
       user: getUser(context).name,
     ),
   );
-
   if (scrollController.hasClients) {
     scrollController.animateTo(
       scrollController.position.maxScrollExtent,
@@ -192,5 +214,6 @@ void handleSend(
       curve: Curves.easeOut,
     );
   }
+  controller.clear();
   focusNode.unfocus(disposition: UnfocusDisposition.scope);
 }
